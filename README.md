@@ -5,8 +5,18 @@ Claude Code setup with best practices.
 ## Usage
 
 ```bash
+# Initialize and start Claude Code
 npx reverendo
+
+# Resume previous session
+npx reverendo --resume
+npx reverendo -r
+
+# Continue last session
+npx reverendo --continue
 ```
+
+Any CLI arguments are passed directly to Claude Code.
 
 ## What It Does
 
