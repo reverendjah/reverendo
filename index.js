@@ -3,8 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { spawn } = require('child_process');
 
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 
 // Colors for terminal
@@ -119,7 +120,24 @@ async function init(targetDir) {
     VERSION
   );
 
-  console.log(`\n  ${c.green('✅')} Pronto! Edite ${c.cyan('CLAUDE.md')} e rode ${c.cyan('claude')}\n`);
+  console.log(`\n  ${c.green('✅')} Pronto!\n`);
+
+  return true; // Signal success for starting Claude
+}
+
+// Start Claude Code
+function startClaude() {
+  console.log(`  ${c.cyan('🚀')} Iniciando Claude Code...\n`);
+
+  const claude = spawn('claude', [], {
+    stdio: 'inherit',
+    shell: true,
+  });
+
+  claude.on('error', (err) => {
+    console.error(`\n  ${c.yellow('!')} Não foi possível iniciar Claude Code.`);
+    console.error(`  Instale com: ${c.cyan('npm install -g @anthropic-ai/claude-code')}\n`);
+  });
 }
 
 // Check for updates
@@ -152,29 +170,39 @@ async function main() {
   const claudeDir = path.join(targetDir, '.claude');
   const versionFile = path.join(claudeDir, '.reverendo-version');
 
+  let shouldStartClaude = false;
+
   // Check if already initialized
   if (fs.existsSync(versionFile)) {
     const currentVersion = fs.readFileSync(versionFile, 'utf8').trim();
 
     if (currentVersion === VERSION) {
-      console.log(`\n  ${c.green('✓')} Reverendo ${c.dim(VERSION)} já está instalado.\n`);
-      return;
+      console.log(`\n  ${c.green('✓')} Reverendo ${c.dim(VERSION)} já está instalado.`);
+      shouldStartClaude = true;
+    } else {
+      await update(targetDir, currentVersion);
+      shouldStartClaude = true;
     }
-
-    await update(targetDir, currentVersion);
   } else if (fs.existsSync(claudeDir)) {
     // .claude exists but no version file - ask if should overwrite
     console.log(`\n  ${c.yellow('!')} Pasta .claude/ encontrada (não é do Reverendo)`);
     const shouldOverwrite = await ask(`  Sobrescrever? [S/n] `);
 
     if (shouldOverwrite) {
-      await init(targetDir);
+      const success = await init(targetDir);
+      shouldStartClaude = success;
     } else {
       console.log('\n  Cancelado.\n');
     }
   } else {
     // Fresh install
-    await init(targetDir);
+    const success = await init(targetDir);
+    shouldStartClaude = success;
+  }
+
+  // Start Claude Code
+  if (shouldStartClaude) {
+    startClaude();
   }
 }
 
