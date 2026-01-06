@@ -1,0 +1,22 @@
+{
+  "name": "reverendo",
+  "version": "1.0.0",
+  "description": "Claude Code setup with best practices",
+  "author": "Caio",
+  "license": "MIT",
+  "bin": "index.js",
+  "files": [
+    "index.js",
+    "templates/"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "reverendo",
+    "cli",
+    "scaffold"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
