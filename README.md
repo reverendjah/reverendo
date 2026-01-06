@@ -37,6 +37,15 @@ Reverendo automatically configures [Context7](https://github.com/upstash/context
 - No more outdated API suggestions
 - Works automatically once configured
 
+## Sequential Thinking
+
+Reverendo configures the [sequential-thinking](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) MCP server for structured reasoning on complex problems.
+
+**What it does:**
+- Breaks down complex problems into steps
+- Allows revising previous thoughts
+- Generates and verifies hypotheses before answering
+
 ## Frontend Design Plugin
 
 Reverendo enables the official [frontend-design](https://github.com/anthropics/claude-code-plugins) plugin, giving you access to production-grade UI generation.
