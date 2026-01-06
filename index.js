@@ -5,7 +5,7 @@ const path = require('path');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 
 // Colors for terminal

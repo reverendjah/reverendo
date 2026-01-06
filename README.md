@@ -37,6 +37,17 @@ Reverendo automatically configures [Context7](https://github.com/upstash/context
 - No more outdated API suggestions
 - Works automatically once configured
 
+## Frontend Design Plugin
+
+Reverendo enables the official [frontend-design](https://github.com/anthropics/claude-code-plugins) plugin, giving you access to production-grade UI generation.
+
+**Usage:**
+```
+/frontend-design
+```
+
+Creates distinctive, polished frontend interfaces that avoid generic AI aesthetics.
+
 **Requirements:** Node.js 18+
 
 ## Workflow
