@@ -14,7 +14,7 @@ Sets up your project with:
 
 ```
 .claude/
-├── settings.json           # Auto-approve safe commands
+├── settings.json           # Auto-approve safe commands + plugins
 ├── commands/
 │   ├── rev-interview.md    # Requirements discovery
 │   ├── rev-spec.md         # Feature specification
@@ -24,8 +24,8 @@ Sets up your project with:
 └── agents/
     └── rev-documenter.md   # Documentation agent
 
-CLAUDE.md                    # Project instructions (you fill this)
-.mcp.json                    # MCP servers (Context7 for up-to-date docs)
+CLAUDE.md                    # Project instructions (you customize this)
+.mcp.json                    # MCP servers (context7, sequential-thinking, playwright)
 ```
 
 ## Context7 Integration
@@ -97,21 +97,7 @@ implement → commit
 
 ## Smart Updates
 
-Run `npx reverendo` again to check for updates:
-
-```
-$ npx reverendo
-
-Reverendo v1.0.0 → v1.1.0
-
-Novidades:
-  + rev-refactor.md (new)
-  ~ rev-review.md (updated)
-
-Update? [Y/n]
-```
-
-Your `CLAUDE.md` is never overwritten.
+Run `npx reverendo` again to update to the latest version. Your customized `CLAUDE.md` is backed up before updating.
 
 ## License
 
