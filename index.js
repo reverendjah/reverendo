@@ -5,7 +5,7 @@ const path = require('path');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
-const VERSION = '1.1.0';
+const VERSION = '1.2.0';
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 
 // Colors for terminal
@@ -113,6 +113,34 @@ async function init(targetDir) {
     claudeMd
   );
   console.log(`  ${c.green('✓')} CLAUDE.md`);
+
+  // Copy .mcp.json (MCP servers config)
+  const mcpJson = path.join(targetDir, '.mcp.json');
+  const mcpTemplate = path.join(TEMPLATES_DIR, 'mcp.json');
+
+  if (fs.existsSync(mcpJson)) {
+    // Merge with existing .mcp.json
+    try {
+      const existing = JSON.parse(fs.readFileSync(mcpJson, 'utf8'));
+      const template = JSON.parse(fs.readFileSync(mcpTemplate, 'utf8'));
+
+      existing.mcpServers = {
+        ...existing.mcpServers,
+        ...template.mcpServers,
+      };
+
+      fs.writeFileSync(mcpJson, JSON.stringify(existing, null, 2) + '\n');
+      console.log(`  ${c.green('✓')} .mcp.json ${c.dim('(merged)')}`);
+    } catch (e) {
+      // If parsing fails, backup and overwrite
+      fs.copyFileSync(mcpJson, path.join(targetDir, '.mcp.json.backup'));
+      fs.copyFileSync(mcpTemplate, mcpJson);
+      console.log(`  ${c.green('✓')} .mcp.json ${c.dim('(backup created)')}`);
+    }
+  } else {
+    fs.copyFileSync(mcpTemplate, mcpJson);
+    console.log(`  ${c.green('✓')} .mcp.json`);
+  }
 
   // Save version
   fs.writeFileSync(

@@ -25,7 +25,19 @@ Sets up your project with:
     └── rev-documenter.md   # Documentation agent
 
 CLAUDE.md                    # Project instructions (you fill this)
+.mcp.json                    # MCP servers (Context7 for up-to-date docs)
 ```
+
+## Context7 Integration
+
+Reverendo automatically configures [Context7](https://github.com/upstash/context7), giving Claude access to up-to-date library documentation.
+
+**How it works:**
+- Claude can query current docs for any library
+- No more outdated API suggestions
+- Works automatically once configured
+
+**Requirements:** Node.js 18+
 
 ## Workflow
 
