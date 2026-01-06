@@ -115,6 +115,18 @@ npm run build
 
 ---
 
+## 8. Documentation
+
+After all checks pass, update documentation:
+
+- [ ] Run `rev-documenter` agent to document changes
+- [ ] Verify CLAUDE.md is still accurate (if project config changed)
+- [ ] Update README if public API changed
+
+**The review is only complete after documentation is updated.**
+
+---
+
 ## Self-Review Questions
 
 Before committing, ask yourself:
