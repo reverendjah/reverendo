@@ -5,7 +5,7 @@ const path = require('path');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
-const VERSION = '1.5.3';
+const VERSION = '1.6.0';
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 
 // Colors for terminal
@@ -105,6 +105,18 @@ async function init(targetDir) {
       path.join(agentsDir, file)
     );
     console.log(`  ${c.green('✓')} .claude/agents/${file}`);
+  }
+
+  // Copy hooks
+  const hooksDir = path.join(claudeDir, 'hooks');
+  fs.mkdirSync(hooksDir, { recursive: true });
+  const hookFiles = fs.readdirSync(path.join(TEMPLATES_DIR, 'hooks'));
+  for (const file of hookFiles) {
+    fs.copyFileSync(
+      path.join(TEMPLATES_DIR, 'hooks', file),
+      path.join(hooksDir, file)
+    );
+    console.log(`  ${c.green('✓')} .claude/hooks/${file}`);
   }
 
   // Copy CLAUDE.md

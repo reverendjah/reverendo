@@ -14,15 +14,17 @@ Sets up your project with:
 
 ```
 .claude/
-├── settings.json           # Auto-approve safe commands + plugins
+├── settings.json           # Auto-approve safe commands + plugins + hooks
 ├── commands/
 │   ├── rev-interview.md    # Requirements discovery
 │   ├── rev-spec.md         # Feature specification
 │   ├── rev-plan.md         # Implementation planning
 │   ├── rev-review.md       # Code review checklist
 │   └── rev-test.md         # Testing checklist
-└── agents/
-    └── rev-documenter.md   # Documentation agent
+├── agents/
+│   └── rev-documenter.md   # Documentation agent
+└── hooks/
+    └── check-docs.sh       # Documentation reminder hook
 
 CLAUDE.md                    # Project instructions (you customize this)
 .mcp.json                    # MCP servers (context7, sequential-thinking, playwright)
@@ -67,6 +69,17 @@ Reverendo enables the official [frontend-design](https://github.com/anthropics/c
 Creates distinctive, polished frontend interfaces that avoid generic AI aesthetics.
 
 **Requirements:** Node.js 18+
+
+## Documentation Hook
+
+Reverendo includes a Stop hook that reminds Claude to update documentation when code changes.
+
+**How it works:**
+- Runs automatically after Claude finishes responding
+- Checks if code files changed but documentation didn't
+- Forces Claude to acknowledge and consider running `rev-documenter`
+
+This ensures documentation stays in sync with your codebase.
 
 ## Workflow
 
