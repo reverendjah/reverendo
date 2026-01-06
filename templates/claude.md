@@ -69,6 +69,15 @@ When implementing features that use external libraries:
 
 Do NOT query for: native code, simple refactors, or well-known APIs.
 
+## Complex Problem Solving
+
+For complex, multi-step problems use sequential-thinking to:
+1. Break down the problem into steps
+2. Revise approach if needed
+3. Verify solution before implementing
+
+Do NOT use for: simple fixes, renames, or straightforward tasks.
+
 ## Security
 
 - Credentials in `.env` (never commit)
