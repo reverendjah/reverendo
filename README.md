@@ -46,6 +46,15 @@ Reverendo configures the [sequential-thinking](https://github.com/modelcontextpr
 - Allows revising previous thoughts
 - Generates and verifies hypotheses before answering
 
+## Playwright
+
+Reverendo configures the [Playwright MCP](https://github.com/microsoft/playwright-mcp) server for browser automation and E2E testing.
+
+**What it does:**
+- Automate browser interactions
+- Run E2E tests
+- Take screenshots and interact with web pages
+
 ## Frontend Design Plugin
 
 Reverendo enables the official [frontend-design](https://github.com/anthropics/claude-code-plugins) plugin, giving you access to production-grade UI generation.
