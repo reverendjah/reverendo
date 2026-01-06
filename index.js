@@ -166,10 +166,10 @@ async function init(targetDir) {
 }
 
 // Start Claude Code
-function startClaude() {
+function startClaude(args = []) {
   console.log(`  ${c.cyan('🚀')} Iniciando Claude Code...\n`);
 
-  const claude = spawn('claude', [], {
+  const claude = spawn('claude', args, {
     stdio: 'inherit',
     shell: true,
   });
@@ -206,6 +206,7 @@ async function update(targetDir, currentVersion) {
 
 // Main
 async function main() {
+  const args = process.argv.slice(2); // Argumentos após 'reverendo'
   const targetDir = process.cwd();
   const claudeDir = path.join(targetDir, '.claude');
   const versionFile = path.join(claudeDir, '.reverendo-version');
@@ -242,7 +243,7 @@ async function main() {
 
   // Start Claude Code
   if (shouldStartClaude) {
-    startClaude();
+    startClaude(args);
   }
 }
 
