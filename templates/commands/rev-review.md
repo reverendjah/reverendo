@@ -117,13 +117,13 @@ npm run build
 
 ## 8. Documentation
 
-After all checks pass, update documentation:
+**Only after Quality Gates (step 6) pass**, update documentation:
 
 - [ ] Run `rev-documenter` agent to document changes
 - [ ] Verify CLAUDE.md is still accurate (if project config changed)
 - [ ] Update README if public API changed
 
-**The review is only complete after documentation is updated.**
+**Do NOT document untested or unapproved changes.**
 
 ---
 

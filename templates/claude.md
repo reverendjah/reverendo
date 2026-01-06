@@ -78,6 +78,22 @@ For complex, multi-step problems use sequential-thinking to:
 
 Do NOT use for: simple fixes, renames, or straightforward tasks.
 
+## Documentation Updates
+
+**IMPORTANT:** After completing a feature or significant change, ask yourself:
+"Would a new developer need to know about this change?"
+
+- **Yes** → Spawn the `rev-documenter` agent in background to update docs
+- **No** (internal refactors, bug fixes, typos) → Skip documentation
+
+The rev-documenter agent will:
+1. Analyze your changes
+2. Update CLAUDE.md if project config changed
+3. Update README if public API changed
+4. Add JSDoc to new public functions
+
+Do NOT manually update docs - let the agent handle it.
+
 ## Security
 
 - Credentials in `.env` (never commit)
