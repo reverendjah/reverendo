@@ -5,7 +5,7 @@ const path = require('path');
 const readline = require('readline');
 const { spawn } = require('child_process');
 
-const VERSION = '1.7.0';
+const VERSION = '1.7.1';
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 
 // Colors for terminal
@@ -321,6 +321,57 @@ async function init(targetDir) {
   return true; // Signal success for starting Claude
 }
 
+// Fix global Claude config if needed (Windows MCP format)
+async function fixGlobalConfig() {
+  if (process.platform !== 'win32') return; // Only needed on Windows
+
+  const homeDir = process.env.USERPROFILE || process.env.HOME;
+  const globalConfig = path.join(homeDir, '.claude.json');
+
+  if (!fs.existsSync(globalConfig)) return;
+
+  try {
+    const config = JSON.parse(fs.readFileSync(globalConfig, 'utf8'));
+
+    if (!config.mcpServers) return;
+
+    // Check if any MCP uses old format (npx directly)
+    let needsFix = false;
+    for (const [name, server] of Object.entries(config.mcpServers)) {
+      if (server.command === 'npx') {
+        needsFix = true;
+        break;
+      }
+    }
+
+    if (!needsFix) return;
+
+    console.log(`\n  ${c.yellow('!')} Seu config global tem MCPs no formato antigo.`);
+    const shouldFix = await ask(`  Corrigir ~/.claude.json? [S/n] `);
+
+    if (shouldFix) {
+      // Backup
+      fs.copyFileSync(globalConfig, globalConfig + '.backup');
+
+      // Fix each MCP server
+      for (const [name, server] of Object.entries(config.mcpServers)) {
+        if (server.command === 'npx') {
+          config.mcpServers[name] = {
+            ...server,
+            command: 'cmd',
+            args: ['/c', 'npx', ...server.args],
+          };
+        }
+      }
+
+      fs.writeFileSync(globalConfig, JSON.stringify(config, null, 2));
+      console.log(`  ${c.green('✓')} Config global corrigido (backup em .claude.json.backup)`);
+    }
+  } catch (e) {
+    // Ignore errors reading global config
+  }
+}
+
 // Start Claude Code
 function startClaude(args = []) {
   console.log(`  ${c.cyan('🚀')} Iniciando Claude Code...\n`);
@@ -397,8 +448,9 @@ async function main() {
     shouldStartClaude = success;
   }
 
-  // Start Claude Code
+  // Fix global config if needed (Windows MCP format)
   if (shouldStartClaude) {
+    await fixGlobalConfig();
     startClaude(args);
   }
 }
